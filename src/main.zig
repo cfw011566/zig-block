@@ -49,7 +49,8 @@ pub fn main() anyerror!void {
 
     // LESSON 05: Textures loading and drawing
     const texLogo = rl.loadTexture("resources/raylib_logo.png");
-    const texBall = rl.loadTexture("resources/ball.png");
+    // const texBall = rl.loadTexture("resources/ball.png");
+    const texBall = rl.loadTexture("resources/ball_blue_large.png");
     const texPaddle = rl.loadTexture("resources/paddle.png");
     const texBrick = rl.loadTexture("resources/brick.png");
 
@@ -61,12 +62,13 @@ pub fn main() anyerror!void {
 
     const fxStart = rl.loadSound("resources/start.wav");
     const fxBounce = rl.loadSound("resources/bounce.wav");
-    const fxExplode = rl.loadSound("resources/explosion.wav");
+    // const fxExplode = rl.loadSound("resources/explosion.wav");
+    const fxExplode = rl.loadSound("resources/impactGlass_heavy_002.ogg");
 
     // const music = rl.loadMusicStream("resources/blockshock.mod");
     const music = rl.loadMusicStream("resources/country.mp3");
 
-    rl.playMusicStream(music); // Start music streaming
+    // rl.playMusicStream(music); // Start music streaming
 
     // Game required variables
     var screen: GameScreen = .logo; // Current game screen state
@@ -177,7 +179,7 @@ pub fn main() anyerror!void {
                         // Game ending logic
                         if ((ball.position.y + ball.radius) >= screen_height) {
                             ball.position.x = player.position.x + player.size.x / 2;
-                            ball.position.y = player.position.y - ball.radius - 1.0;
+                            ball.position.y = player.position.y - ball.radius * 2.0;
                             ball.speed = rl.Vector2{ .x = 0, .y = 0 };
                             ball.active = false;
 
@@ -255,7 +257,13 @@ pub fn main() anyerror!void {
                     pos_x -= @divTrunc(radius, 2);
                     var pos_y: i32 = @intFromFloat(ball.position.y);
                     pos_y -= @divTrunc(radius, 2);
-                    rl.drawTexture(texBall, pos_x, pos_y, rl.Color.maroon); // Draw ball
+                    // rl.drawTexture(texBall, pos_x, pos_y, rl.Color.white); // Draw ball
+                    const pos = rl.Vector2.init(
+                        ball.position.x - ball.radius / 2,
+                        ball.position.y - ball.radius / 2,
+                    );
+                    // 64 -> 22 = 0.35
+                    rl.drawTextureEx(texBall, pos, 0.0, 0.4, rl.Color.white);
 
                     // Draw bricks
                     for (0..bricks_lines) |j| {
