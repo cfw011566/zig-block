@@ -48,23 +48,23 @@ pub fn main() anyerror!void {
     // NOTE: Load resources (textures, fonts, audio) after Window initialization
 
     // LESSON 05: Textures loading and drawing
-    const texLogo = rl.loadTexture("resources/raylib_logo.png");
-    const texBall = rl.loadTexture("resources/ball.png");
-    const texPaddle = rl.loadTexture("resources/paddle.png");
-    const texBrick = rl.loadTexture("resources/brick.png");
+    const texLogo = try rl.loadTexture("resources/raylib_logo.png");
+    const texBall = try rl.loadTexture("resources/ball.png");
+    const texPaddle = try rl.loadTexture("resources/paddle.png");
+    const texBrick = try rl.loadTexture("resources/brick.png");
 
     // LESSON 06: Fonts loading and text drawing
-    const font = rl.loadFont("resources/setback.png");
+    const font = try rl.loadFont("resources/setback.png");
 
     // LESSON 07: Sounds and music loading and playing
     rl.initAudioDevice(); // Initialize audio system
 
-    const fxStart = rl.loadSound("resources/start.wav");
-    const fxBounce = rl.loadSound("resources/bounce.wav");
-    const fxExplode = rl.loadSound("resources/explosion.wav");
+    const fxStart = try rl.loadSound("resources/start.wav");
+    const fxBounce = try rl.loadSound("resources/bounce.wav");
+    const fxExplode = try rl.loadSound("resources/explosion.wav");
 
     // const music = rl.loadMusicStream("resources/blockshock.mod");
-    const music = rl.loadMusicStream("resources/country.mp3");
+    const music = try rl.loadMusicStream("resources/country.mp3");
 
     rl.playMusicStream(music); // Start music streaming
 
@@ -120,7 +120,7 @@ pub fn main() anyerror!void {
             .title => {
                 // Update TITLE screen data here!
                 frames_counter += 1;
-                if (rl.isKeyPressed(rl.KeyboardKey.key_enter)) {
+                if (rl.isKeyPressed(rl.KeyboardKey.enter)) {
                     screen = .game_play;
                     rl.playSound(fxStart);
                 }
@@ -128,7 +128,7 @@ pub fn main() anyerror!void {
             .game_play => {
                 // Update GAMEPLAY screen data here!
                 frames_counter += 1;
-                if (rl.isKeyPressed(rl.KeyboardKey.key_p)) {
+                if (rl.isKeyPressed(rl.KeyboardKey.p)) {
                     game_paused = !game_paused;
                     if (game_paused) {
                         rl.pauseMusicStream(music);
@@ -138,8 +138,8 @@ pub fn main() anyerror!void {
                 }
                 if (!game_paused) {
                     // Player movement logic
-                    if (rl.isKeyDown(rl.KeyboardKey.key_left)) player.position.x -= player.speed.x;
-                    if (rl.isKeyDown(rl.KeyboardKey.key_right)) player.position.x += player.speed.x;
+                    if (rl.isKeyDown(rl.KeyboardKey.left)) player.position.x -= player.speed.x;
+                    if (rl.isKeyDown(rl.KeyboardKey.right)) player.position.x += player.speed.x;
 
                     if ((player.position.x) <= 0) player.position.x = 0;
                     if ((player.position.x + player.size.x) >= screen_width) player.position.x = screen_width - player.size.x;
@@ -194,7 +194,7 @@ pub fn main() anyerror!void {
                         ball.position.x = player.position.x + player.size.x / 2;
 
                         // LESSON 03: Inputs management (keyboard, mouse)
-                        if (rl.isKeyPressed(rl.KeyboardKey.key_space)) {
+                        if (rl.isKeyPressed(rl.KeyboardKey.space)) {
                             // Activate ball logic
                             ball.active = true;
                             ball.speed = rl.Vector2{ .x = 0, .y = -5.0 };
@@ -204,7 +204,7 @@ pub fn main() anyerror!void {
             },
             .ending => {
                 frames_counter += 1;
-                if (rl.isKeyPressed(rl.KeyboardKey.key_enter)) {
+                if (rl.isKeyPressed(rl.KeyboardKey.enter)) {
                     screen = .title;
                 }
             },

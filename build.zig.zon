@@ -1,10 +1,11 @@
 .{
-    .name = "zig-block",
+    .name = .zig_block,
+    .fingerprint = 0xbad04e03cc873bc5,
     .version = "0.0.1",
     .dependencies = .{
-        .@"raylib-zig" = .{
-            .url = "https://github.com/Not-Nik/raylib-zig/archive/devel.tar.gz",
-            .hash = "1220fc554f109a45a77ee5c58b4a847936dc0b24dcbed818b65a02de1b58500041dc",
+        .raylib_zig = .{
+            .url = "git+https://github.com/raylib-zig/raylib-zig?ref=devel#178530d5f5e654d9eb1d7a79e3fbfbd931e26163",
+            .hash = "raylib_zig-5.6.0-dev-KE8REKo6BQDt6jBeo3ODV5g9kzo2IRfJARkaN0kXtC2T",
         },
     },
     .paths = .{""},
